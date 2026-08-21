@@ -1,36 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# haidi-story
 
-## Getting Started
+An immersive, scroll-driven retelling of haidi.io. A persistent WebGL world
+(React Three Fiber) sits behind the page; native scroll drives the camera and
+scene state through eight narrative chapters while GSAP / Motion handle the DOM.
 
-First, run the development server:
+The original site lives untouched in `../Haidi Website`. This folder is a
+separate project with its own deploy pipeline.
+
+## Stack
+
+Next.js 15 (App Router, static export) · React 19 · Tailwind 4 ·
+React Three Fiber + drei · GSAP 3 (ScrollTrigger, SplitText) · Motion ·
+Lenis · zustand · Cal.com embed.
+
+## Develop
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # static export to ./out
+npx serve out    # preview the export
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+In the browser `window.lenis.scrollTo(px, { immediate: true })` jumps to any
+scroll position for QA.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How the story is wired
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `src/lib/chapters.ts` – chapter order + scroll height (single source of truth).
+  `chapterCoord(progress)` maps page progress to `chapter.fraction`.
+- `src/lib/scrollStore.ts` – zustand store fed by Lenis; read by the scene each frame.
+- `src/components/scene/sceneConfig.ts` – camera knots (one per half-chapter) and
+  `sceneState(coord)`: every shader/material value as a pure function of scroll.
+- `src/components/scene/SceneDriver.tsx` – damps the scene toward that state.
+- `src/components/chapters/*` – one component per chapter; `Chapter.tsx` gives each
+  its sticky 100vh stage. `useChapterProgress(i, cb)` drives DOM effects.
+- `src/lib/content.ts` – all copy.
 
-## Learn More
+Chapters: Signal (hero) → Noise (problem) → Forecast → Decision → Workspace →
+Configure & Connect → Launch (onboarding + about) → Outro (CTA + footer).
 
-To learn more about Next.js, take a look at the following resources:
+## Tiers
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`MotionPrefsProvider` picks a tier: `full` (desktop), `lite` (<1024px: fewer
+particles, vertical cards), `static` (reduced-motion or no WebGL: poster
+gradient, no smooth scroll, flowing sections).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deploy (Azure Static Web Apps)
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`.github/workflows/azure-swa.yml` builds and uploads `out/` plus the `api/`
+Azure Function (copied from the original site; POST `/api/contact` logs to
+SharePoint and emails hello@haidi.io – see `api/` and the original repo's
+`integrations/azure-contact-setup.md`). Create a **new** Static Web App and add
+its token as the `AZURE_STATIC_WEB_APPS_API_TOKEN_STORY` secret.
