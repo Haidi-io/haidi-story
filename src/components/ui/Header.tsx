@@ -52,12 +52,14 @@ export function Header() {
             <Image src="/assets/haidi.png" alt="Haidi" width={96} height={28} className="h-6 w-auto" priority />
           </a>
           <nav className="hidden items-center gap-2 md:flex">
-            <CalButton />
-            <Button onClick={openContact}>Prepare to launch</Button>
+            <Button variant="ghost" onClick={openContact}>
+              Contact us
+            </Button>
+            <CalButton variant="primary">Prepare to launch</CalButton>
           </nav>
-          <Button className="md:hidden" onClick={openContact}>
+          <CalButton variant="primary" className="md:hidden">
             Launch
-          </Button>
+          </CalButton>
         </div>
         <div className="h-px w-full bg-white/5">
           <div ref={bar} className="h-px origin-left bg-teal" style={{ transform: "scaleX(0)" }} />

@@ -1,5 +1,5 @@
 "use client";
-import { createElement, useRef, type ElementType } from "react";
+import { createElement, useEffect, useRef, useState, type ElementType } from "react";
 import { gsap, SplitText, useGSAP } from "@/lib/gsap";
 import { useReducedMotionPref } from "@/hooks/useTier";
 
@@ -36,7 +36,11 @@ export function SplitHeading({
 }: Props) {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotionPref();
-  const armed = play === undefined || play;
+  // latch: once the reveal has been armed it never reverts/replays when `play` flips back
+  const [armed, setArmed] = useState(play === undefined || play);
+  useEffect(() => {
+    if (play) setArmed(true);
+  }, [play]);
 
   useGSAP(
     () => {

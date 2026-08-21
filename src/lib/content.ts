@@ -40,6 +40,12 @@ export const content = {
         title: "Bring forecasts and business input together",
         body: "Sales, marketing and finance overlay their knowledge on the baseline. Every override is logged with a reason.",
       },
+      {
+        k: "04",
+        name: "Inventory Review",
+        title: "From agreed demand to inventory position",
+        body: "Safety stock, reorder points and projected inventory follow the agreed demand, by SKU and location, with every change reviewable.",
+      },
     ],
     callout: {
       label: "Why this value",
@@ -119,17 +125,21 @@ export const content = {
     connect: {
       eyebrow: "Integrations",
       title: "Connected to the systems you already run.",
-      systems: ["SAP IBP", "SAP S/4HANA", "SAP Business ByDesign"],
+      groups: [
+        { label: "SAP", systems: ["SAP IBP", "SAP S/4HANA", "SAP Business ByDesign"] },
+        { label: "Microsoft", systems: ["Dynamics 365 Business Central"] },
+        { label: "Odoo", systems: ["Odoo"] },
+      ],
     },
   },
   launch: {
     eyebrow: "How it works",
     title: "Onboarding that fits around your planning decisions.",
-    duration: "2–3 weeks",
+    duration: "Live in hours",
     steps: [
-      { title: "Scope it together", body: "We agree on the decisions that matter and the data that drives them." },
-      { title: "Bring your data in", body: "Connect ERP, files and forecasts. Haidi maps and validates them." },
-      { title: "Read the signal together", body: "We review the first forecasts with your planners, line by line." },
+      { title: "Scope it together", body: "A short call on the decisions that matter and the data that drives them." },
+      { title: "Bring your data in", body: "Connect your ERP or drop a file. Haidi maps and validates it, no IT project required." },
+      { title: "Read the signal together", body: "Your first forecasts, reviewed with your planners line by line, the same day." },
       { title: "Apply the right intelligence", body: "Models, drivers and overrides tuned to your categories." },
       { title: "Decide and move", body: "Your first cycle runs in Haidi. The decision is yours." },
     ],
@@ -148,7 +158,7 @@ export const content = {
     title: "Prepare to launch",
     body: "Bring one dataset. Leave with a forecast you can explain and a plan you can defend.",
     cta: "Prepare to launch",
-    secondary: "Book a 15-minute call",
+    secondary: "Contact us",
     footer: "© 2026 Haidi · Built by IBP Ready, Switzerland",
   },
 } as const;

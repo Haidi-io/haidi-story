@@ -76,9 +76,9 @@ export function ContactModal() {
           >
             <div className="mb-6 flex items-start justify-between gap-4">
               <div>
-                <p className="eyebrow mb-2">Prepare to launch</p>
+                <p className="eyebrow mb-2">Contact us</p>
                 <h2 id="contact-title" className="display text-2xl">
-                  {status === "done" ? "Thank you." : "Let’s look at your data together."}
+                  {status === "done" ? "Thank you." : "Tell us about your planning."}
                 </h2>
               </div>
               <button

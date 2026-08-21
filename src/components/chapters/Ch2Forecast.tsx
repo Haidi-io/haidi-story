@@ -10,11 +10,11 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 export function Ch2Forecast() {
   const { forecast } = content;
-  const step = useChapterStep(2, forecast.steps.length, 0.12, 0.82);
+  const step = useChapterStep(2, forecast.steps.length, 0.1, 0.86);
   const [callout, setCallout] = useState(false);
   const [titleIn, setTitleIn] = useState(false);
   useChapterProgress(2, (p) => {
-    setCallout(p > 0.8);
+    setCallout(p > 0.88);
     setTitleIn(p > 0.02);
   });
 
@@ -67,7 +67,7 @@ export function Ch2Forecast() {
                   <motion.div
                     animate={{ opacity: active ? 1 : 0.35, x: active ? 0 : -6 }}
                     transition={{ duration: 0.5, ease }}
-                    className="grid grid-cols-[3rem_1fr] gap-4 py-4"
+                    className="grid grid-cols-[3rem_1fr] gap-4 py-3"
                   >
                     <span className={`font-mono text-sm ${active ? "text-teal-bright" : "text-faint"}`}>{s.k}</span>
                     <div>

@@ -106,20 +106,26 @@ function Connect() {
         className="mt-10 flex flex-wrap gap-4"
         initial="hidden"
         animate="show"
-        variants={{ show: { transition: { staggerChildren: 0.12, delayChildren: 0.3 } } }}
+        variants={{ show: { transition: { staggerChildren: 0.14, delayChildren: 0.3 } } }}
       >
-        {connect.systems.map((s) => (
+        {connect.groups.map((g) => (
           <motion.div
-            key={s}
-            variants={{ hidden: { opacity: 0, scale: 0.9, y: 16 }, show: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.6, ease } } }}
-            className="panel flex items-center gap-4 px-6 py-5"
+            key={g.label}
+            variants={{ hidden: { opacity: 0, scale: 0.96, y: 16 }, show: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.6, ease } } }}
+            className="panel p-5"
           >
-            <span className="relative flex h-3 w-3">
-              <span className="absolute inset-0 animate-ping rounded-full bg-coral/50" />
-              <span className="absolute inset-0 rounded-full bg-coral" />
-            </span>
-            <span className="text-lg font-medium tracking-tight">{s}</span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-faint">live sync</span>
+            <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-faint">{g.label}</p>
+            <div className="flex flex-wrap gap-3">
+              {g.systems.map((s) => (
+                <div key={s} className="flex items-center gap-3 rounded-xl border border-line bg-white/[0.03] px-4 py-3">
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="absolute inset-0 animate-ping rounded-full bg-coral/50" />
+                    <span className="absolute inset-0 rounded-full bg-coral" />
+                  </span>
+                  <span className="text-base font-medium tracking-tight sm:text-lg">{s}</span>
+                </div>
+              ))}
+            </div>
           </motion.div>
         ))}
       </motion.div>

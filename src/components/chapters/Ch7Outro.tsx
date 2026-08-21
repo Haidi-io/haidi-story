@@ -15,8 +15,9 @@ import { SplitHeading } from "@/components/ui/SplitHeading";
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const PROOFS = [
+  "Demand Planning and Inventory Planning",
+  "Minimal IT involvement",
   "Live in hours, not months",
-  "Forecasts you can explain",
   "No contracts, no lock-in",
 ];
 
@@ -34,7 +35,8 @@ export function Ch7Outro() {
       glow.current.style.transform = `translate(-30%, -40%) scale(${0.8 + 0.5 * k})`;
     }
     const s = p > 0.5 ? 3 : p > 0.26 ? 2 : p > 0.06 ? 1 : 0;
-    setStage(isStatic ? 3 : s);
+    // monotonic: the outro reveals once and stays revealed when scrolling back up
+    setStage((prev) => (isStatic ? 3 : Math.max(prev, s)));
   });
 
   return (
@@ -102,12 +104,12 @@ export function Ch7Outro() {
               animate={{ opacity: stage >= 2 ? 1 : 0, y: stage >= 2 ? 0 : 16 }}
               transition={{ duration: 0.7, delay: 0.1, ease }}
             >
-              <Button glow size="lg" onClick={openContact}>
+              <CalButton variant="primary" glow size="lg">
                 {outro.cta}
-              </Button>
-              <CalButton className="px-8 py-4 text-base">
-                {outro.secondary}
               </CalButton>
+              <Button variant="ghost" size="lg" onClick={openContact}>
+                {outro.secondary}
+              </Button>
             </motion.div>
 
             <motion.ul

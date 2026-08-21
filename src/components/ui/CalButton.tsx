@@ -4,7 +4,16 @@ import { getCalApi } from "@calcom/embed-react";
 import { site } from "@/lib/site";
 import { Button } from "./Button";
 
-export function CalButton({ children = "Book a call", className = "" }: { children?: React.ReactNode; className?: string }) {
+interface Props {
+  children?: React.ReactNode;
+  className?: string;
+  variant?: "primary" | "ghost";
+  glow?: boolean;
+  size?: "md" | "lg";
+}
+
+/** Opens the Cal.com booking popup (falls back to a new tab if the embed is blocked). */
+export function CalButton({ children = "Book a call", className = "", variant = "ghost", glow = false, size = "md" }: Props) {
   useEffect(() => {
     (async () => {
       try {
@@ -23,13 +32,14 @@ export function CalButton({ children = "Book a call", className = "" }: { childr
 
   return (
     <Button
-      variant="ghost"
+      variant={variant}
+      glow={glow}
+      size={size}
       className={className}
       data-cal-namespace="15min"
       data-cal-link={site.calLink}
       data-cal-config='{"layout":"month_view","theme":"dark"}'
       onClick={() => {
-        // fallback if the embed script did not attach
         if (!(window as unknown as { Cal?: unknown }).Cal) {
           window.open(`https://cal.com/${site.calLink}`, "_blank", "noopener");
         }

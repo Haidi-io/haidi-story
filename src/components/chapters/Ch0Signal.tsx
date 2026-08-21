@@ -38,8 +38,12 @@ export function Ch0Signal() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 1.25, ease }}
           >
-            <Button onClick={openContact}>{hero.cta}</Button>
-            <CalButton>Book a 15-minute call</CalButton>
+            <CalButton variant="primary" glow>
+              {hero.cta}
+            </CalButton>
+            <Button variant="ghost" onClick={openContact}>
+              Contact us
+            </Button>
           </motion.div>
           <motion.p
             className="mt-6 font-mono text-[11px] uppercase tracking-[0.18em] text-faint"
